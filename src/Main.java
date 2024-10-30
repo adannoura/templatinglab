@@ -4,9 +4,25 @@ interface Ingredient {
     double getQuantity();
 }
 class SolidIngredient implements Ingredient{
-
+    private String _name;
+    private double _quantity;
+    public String getName(){
+        return  _name;
+    }
+    public double getQuantity() {
+        return _quantity;
+    }
 }
-class LiquidIngredient implements Ingredient{ }
+class LiquidIngredient implements Ingredient{
+    private String _name;
+    private double _quantity;
+    public String getName(){
+        return  _name;
+    }
+    public double getQuantity() {
+        return _quantity;
+    }
+}
 class Recipe<T extends Ingredient>{
     private ArrayList<T> _ingredient;
     public Stuff(){
@@ -31,7 +47,7 @@ class Recipe<T extends Ingredient>{
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner();
+//        Scanner scanner = new Scanner;
 
         System.out.println("1. add an ingredient ");
         System.out.println("2. list an ingredient ");
