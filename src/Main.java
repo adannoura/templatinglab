@@ -43,6 +43,7 @@ class Recipe<T extends Ingredient>{
     public void addIngredient(T t){
         _ingredient.add(t);
     }
+    public void setInstructions(String instructions){_instructions = instructions;}
     public void print(){
         System.out.println("Recipe: "+_name);
         System.out.println("Instructions: "+_instructions);
@@ -54,65 +55,60 @@ class Recipe<T extends Ingredient>{
 }
 
 public class Main {
-    public static void main() {
-        Scanner scanner = new Scanner(System.in)
-        int choice;
-        boolean exit = false;
-        while(!exit) {
-            System.out.println("Recipe Menu:");
-            System.out.println("1. add an ingredient ");
-            System.out.println("2. list an ingredients ");
-            System.out.println("3. Exit ");
-            System.out.println("Enter a number: ");
-            try {
-                choice = Integer.valueOf(scanner.nextLine());
-            }
-            catch (NumberFormatException e) {
-                System.out.println("invalid data entered" + e.getMessage());
-            }
-            if(scanner.hasNextInt()){
-                choice = scanner.nextInt();
-                scanner.nextLine();
-                switch (choice){
-                    case 1:
-                        System.out.println("Enter the Ingredient: ");
-                        String ingredient = scanner.nextLine();
-                        break;
-                    case 2:
-                        System.out.println("Listing ingredients");
-                        System.out.println();
-                        break;
-                    case 3:
-                        System.out.println("Exiting....");
-                        exit = true;
-                        break;
-                    default:
-                        System.out.println("invalid choice, please enter another choice: ");
-                    }
-                }
-                else {
-                    System.out.println("invalid, please enter a number:");
-                    scanner.next();
-                }
-
-       }
+    public static void addIngredient(Recipe<Ingredient> recipe, Scanner scan){
+        System.out.println("Is it a solid or liquid s/l:");
+        char type = scan.nextLine().charAt(0);
+        System.out.println("enter name:");
+        String name = scan.nextLine();
+        System.out.println("enter quantity:");
+        double quantity = Double.parseDouble(scan.nextLine());
+        Ingredient ingredient; //polymorphic reference
+        if(type =='s')
+            ingredient = new SolidIngredient(name, quantity);
+        else
+            ingredient = new LiquidIngredient(name, quantity);
+        recipe.addIngredient(ingredient);
     }
-}
-
-//public static void addIngrediesnt(Recipe<Ingredient> recipe, Scanner scan{
-//    System.out.println("is it a solid or liquid:");
-//    char type = scan.nextLine().charAt(0);
-//    System.out.println("enter name:");
-//    String name = scan.nextLine();
-//    System.out.println("enter quantity:");
-//    double quantity = Double.parseDouble(scan.nextLine());
-//    Ingredient ingredient; //polymorphic reference
-//    if(type =='s')
-//        ingredient = new SolidIngredient(name, quantity);
-//    else
-//        ingredient = new LiquidIngredient(name, quantity);
-//    recipe.addIngredient(ingredient);
-//}
-public static void main(String[] args){
+    public static void addInstructions(Recipe<Ingredient> recipe, Scanner scan){
+        System.out.println("Enter Instructions:" );
+        String instructions = scan.nextLine();
+        recipe.setInstructions(instructions);
+        int choice = menu(scan);
+        while (choice != 3){
+            switch (choice){
+                case 1:
+                    addIngredient(recipe, scan);
+                    break;
+                case 2:
+                    recipe.print();
+                    break;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+                    break;
+            }
+            choice = menu(scan);
+        }
+    }
+    public static int menu(Scanner scanner) {
+        int choice = -1;
+        System.out.println("Recipe Menu:");
+        System.out.println("1. add an ingredient ");
+        System.out.println("2. list an ingredients ");
+        System.out.println("3. Exit ");
+        System.out.println("Enter a number: ");
+        try {
+            choice = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("invalid data entered" + e.getMessage());
+        }
+        return choice;
+    }
+    public static void main(String[] args){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter recipe name: ");
+        String name = scanner.nextLine();
+        Recipe<Ingredient> recipe = new Recipe<>(name, "");
+        addInstructions(recipe, scanner);
+    }
 
 }
