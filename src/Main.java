@@ -90,10 +90,10 @@ public class Main {
         }
     }
     public static int menu(Scanner scanner) {
-        int choice = -1;
+        int choice = 0;
         System.out.println("Recipe Menu:");
         System.out.println("1. add an ingredient ");
-        System.out.println("2. list an ingredients ");
+        System.out.println("2. list ingredients ");
         System.out.println("3. Exit ");
         System.out.println("Enter a number: ");
         try {
@@ -112,3 +112,15 @@ public class Main {
     }
 
 }
+
+//try{
+//sout(----)
+// int choice = scan....
+//while(choice != sentinal)
+//if 1
+//else if 2
+//else 3 invalid
+//sout(----)
+//choice = scan
+// }
+//}catch(----){}
